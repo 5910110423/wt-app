@@ -7,8 +7,8 @@ export default class Weather extends React.Component {
         super(props);
         this.state = {
             forecast:{
-                main:'-',
-                description:'-',
+                main:'main',
+                description:'description',
                 temp : 0
             }
         };
@@ -18,11 +18,12 @@ export default class Weather extends React.Component {
         fetch(`http://api.openweathermap.org/data/2.5/weather?q=${this.props.zipCode},th&units=metric&APPID=fd68c0f2039c5a25f666a9ff374bc93e`)
         .then((response)=> response.json())
         .then((json)=>{
+            console.log(json)
             this.setState(
                 {
                     forecast : {
                         main : json.weather[0].main,
-                        fescription : json.Weather[0].description,
+                        description : json.weather[0].description,
                         temp : json.main.temp
                     }
                 });
@@ -32,12 +33,12 @@ export default class Weather extends React.Component {
         });
     }
     
-    componentDidMout = ()=> this.fetchData() 
-    componentDidUpdate = (prevProps) => {
-        if(prevProps.zipCode !== this.props.zipCode){
-          this.fetchData()
-        }
-      }
+    componentDidMount = ()=> this.fetchData() 
+    // componentDidUpdate = (prevProps) => {
+    //     if(prevProps.zipCode !== this.props.zipCode){
+    //       this.fetchData()
+    //     }
+    //   }
 
 render() {
     return (
@@ -45,6 +46,7 @@ render() {
       <ImageBackground source = {require('../bg1.jpg')} style={styles.backdrop}>
         <View style={styles.top}>
             <Text style={styles.text} >Zip code is {this.props.zipCode}.</Text>
+            {console.log("test")}
             <Forecast {...this.state.forecast}/>
         </View>
       </ImageBackground>
